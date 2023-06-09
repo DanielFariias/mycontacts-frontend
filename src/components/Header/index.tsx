@@ -1,0 +1,19 @@
+import * as S from './styles'
+
+import logo from '../../assets/images/logo.svg'
+
+export default function Header() {
+  return (
+    <S.Container>
+      <img
+        src={logo}
+        alt="Logo da aplicação com um texto escrito MyContacts"
+        width={200}
+      />
+
+      <S.SearchContainer>
+        <input type="text" placeholder="Pesquisar contato..." />
+      </S.SearchContainer>
+    </S.Container>
+  )
+}
