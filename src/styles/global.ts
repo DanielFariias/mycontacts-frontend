@@ -8,12 +8,12 @@ export default createGlobalStyle`
     font-family: 'Sora', sans-serif;
   }
 
-  html, body, #root {
+  /* html, body, #root {
     height: 100%;
-  }
+  } */
 
    body {
-    background: ${({ theme }) => theme.backgroundColor};
+    background: ${({ theme }) => theme.colors.background};
     font-size: 16px;
 
     -webkit-font-smoothing: antialiased;
