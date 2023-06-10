@@ -4,16 +4,12 @@ import arrow from '../../assets/icons/arrow.svg'
 import trash from '../../assets/icons/trash.svg'
 import edit from '../../assets/icons/edit.svg'
 import { Link } from 'react-router-dom'
-import Modal from '../../components/Modal'
+import Loader from '../../components/Loader'
 
 export default function Home() {
   return (
     <S.Container>
-      {/* <Modal
-        danger
-        description={'daskljhadfskljasdfhkjfdahldfskhjdfs'}
-        title={'dslhdkjadhsadshljkadshljkdsh'}
-      /> */}
+      <Loader />
 
       <S.SearchContainer>
         <input type="text" placeholder="Pesquisar contato..." />
