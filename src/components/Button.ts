@@ -1,9 +1,13 @@
-import { styled } from 'styled-components'
+import { css, styled } from 'styled-components'
 
-const Button = styled.button`
-  width: 100%;
+interface IButtonProps {
+  danger?: boolean
+}
+
+const Button = styled.button<IButtonProps>`
   height: 52px;
   border: none;
+  padding: 0 16px;
   background-color: ${({ theme }) => theme.colors.primary.main};
   color: #fff;
   font-size: 16px;
@@ -24,6 +28,20 @@ const Button = styled.button`
     background-color: #ccc;
     cursor: not-allowed;
   }
+
+  ${({ theme, danger }) =>
+    danger &&
+    css`
+      background-color: ${theme.colors.danger.main};
+
+      &:hover {
+        background-color: ${theme.colors.danger.light};
+      }
+
+      &:active {
+        background-color: ${theme.colors.danger.dark};
+      }
+    `}
 `
 
 export default Button
