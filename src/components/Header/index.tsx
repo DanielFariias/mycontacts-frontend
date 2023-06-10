@@ -10,10 +10,6 @@ export default function Header() {
         alt="Logo da aplicação com um texto escrito MyContacts"
         width={200}
       />
-
-      <S.SearchContainer>
-        <input type="text" placeholder="Pesquisar contato..." />
-      </S.SearchContainer>
     </S.Container>
   )
 }
