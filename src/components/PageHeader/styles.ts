@@ -1,6 +1,8 @@
 import { styled } from 'styled-components'
 
 export const Container = styled.div`
+  margin-bottom: 24px;
+
   a {
     text-decoration: none;
     display: flex;
