@@ -5,7 +5,7 @@ import defaultTheme from '../../styles/themes/default'
 
 import * as S from './styles'
 import Header from '../Header'
-import ContactsList from '../ContactsList'
+import Routes from '../../pages/Routes'
 
 export default function App() {
   return (
@@ -14,7 +14,7 @@ export default function App() {
 
       <S.Container>
         <Header />
-        <ContactsList />
+        <Routes />
       </S.Container>
     </ThemeProvider>
   )
