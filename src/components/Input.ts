@@ -1,6 +1,10 @@
-import { styled } from 'styled-components'
+import { css, styled } from 'styled-components'
 
-const Input = styled.input`
+interface IInputProps {
+  hasError?: boolean
+}
+
+const Input = styled.input<IInputProps>`
   width: 100%;
   height: 52px;
 
@@ -18,6 +22,13 @@ const Input = styled.input`
   &:focus {
     border-color: ${({ theme }) => theme.colors.primary.main};
   }
+
+  ${({ hasError, theme }) =>
+    hasError &&
+    css`
+      color: ${theme.colors.danger.main};
+      border-color: ${theme.colors.danger.main} !important;
+    `}
 `
 
 export default Input

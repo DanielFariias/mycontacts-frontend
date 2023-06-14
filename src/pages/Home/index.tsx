@@ -4,13 +4,10 @@ import arrow from '../../assets/icons/arrow.svg'
 import trash from '../../assets/icons/trash.svg'
 import edit from '../../assets/icons/edit.svg'
 import { Link } from 'react-router-dom'
-import Loader from '../../components/Loader'
 
 export default function Home() {
   return (
     <S.Container>
-      <Loader />
-
       <S.SearchContainer>
         <input type="text" placeholder="Pesquisar contato..." />
       </S.SearchContainer>
