@@ -6,15 +6,13 @@ import Input from '../Input'
 import Select from '../Select'
 
 import * as S from './styles'
+
 import isEmailValid from '../../utils/isEmailValid'
+import useErrors from '../../hooks/useErrors'
+import formatPhone from '../../utils/formatPhone'
 
 interface IContactFormProps {
   buttonLabel: string
-}
-
-interface IError {
-  field: string
-  message: string
 }
 
 export default function ContactForm({ buttonLabel }: IContactFormProps) {
@@ -22,23 +20,21 @@ export default function ContactForm({ buttonLabel }: IContactFormProps) {
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [category, setCategory] = useState('')
-  const [errors, setErrors] = useState<IError[]>([])
+
+  const {
+    getErrorMessageByFieldName,
+    hasError,
+    removeErrorByFieldName,
+    setError,
+    errors,
+  } = useErrors()
 
   function handleChangeName(e: FormEvent<HTMLInputElement>) {
     if (!e.currentTarget.value) {
-      setErrors((prevState) => [
-        ...prevState,
-        {
-          field: 'name',
-          message: 'Nome é obrigatório',
-        },
-      ])
+      setError({ field: 'name', message: 'Nome é obrigatório' })
     } else {
-      setErrors((prevState) =>
-        prevState.filter((error) => error.field !== 'name'),
-      )
+      removeErrorByFieldName('name')
     }
-
     setName(e.currentTarget.value)
   }
 
@@ -46,43 +42,29 @@ export default function ContactForm({ buttonLabel }: IContactFormProps) {
     setEmail(e.currentTarget.value)
 
     if (e.currentTarget.value && !isEmailValid(e.currentTarget.value)) {
-      const errorAlreadyExists = errors.some((error) => error.field === 'email')
-
-      if (errorAlreadyExists) return
-
-      setErrors((prevState) => [
-        ...prevState,
-        {
-          field: 'email',
-          message: 'e-mail inválido',
-        },
-      ])
+      setError({ field: 'email', message: 'e-mail inválido' })
     } else {
-      setErrors((prevState) =>
-        prevState.filter((error) => error.field !== 'email'),
-      )
+      removeErrorByFieldName('email')
     }
   }
 
-  function getErrorMessageByFieldName(fieldName: string) {
-    return errors.find((error) => error.field === fieldName)?.message
-  }
-
-  function hasError(fieldName: string) {
-    return errors.some((error) => error.field === fieldName)
+  function handlePhoneChange(e: FormEvent<HTMLInputElement>) {
+    setPhone(formatPhone(e.currentTarget.value))
   }
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
-    console.log({ name, email, phone, category })
+    console.log({ name, email, phone: phone.replace(/\D/g, ''), category })
   }
 
+  const isFormValid = name && errors.length === 0
+
   return (
-    <S.Form onSubmit={handleSubmit}>
+    <S.Form onSubmit={handleSubmit} noValidate>
       <FormGroup error={getErrorMessageByFieldName('name')}>
         <Input
-          placeholder="Nome"
+          placeholder="Nome *"
           value={name}
           onChange={handleChangeName}
           hasError={hasError('name')}
@@ -93,6 +75,7 @@ export default function ContactForm({ buttonLabel }: IContactFormProps) {
         <Input
           placeholder="Email"
           value={email}
+          type="email"
           onChange={handleEmailChange}
           hasError={hasError('email')}
         />
@@ -102,7 +85,8 @@ export default function ContactForm({ buttonLabel }: IContactFormProps) {
         <Input
           placeholder="Telefone"
           value={phone}
-          onChange={handleEmailChange}
+          onChange={handlePhoneChange}
+          maxLength={15}
         />
       </FormGroup>
       <FormGroup>
@@ -114,7 +98,9 @@ export default function ContactForm({ buttonLabel }: IContactFormProps) {
         </Select>
       </FormGroup>
       <S.ButtonContainer>
-        <Button type="submit">{buttonLabel}</Button>
+        <Button type="submit" disabled={!isFormValid}>
+          {buttonLabel}
+        </Button>
       </S.ButtonContainer>
     </S.Form>
   )
