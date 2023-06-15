@@ -49,28 +49,35 @@ export const Header = styled.header`
   }
 `
 
-export const ListContainer = styled.ul`
+interface IListHeaderProps {
+  orderBy: 'asc' | 'desc'
+}
+
+export const ListHeader = styled.header<IListHeaderProps>`
   margin-top: 24px;
+  margin-bottom: 16px;
 
-  header {
-    button {
-      background-color: transparent;
-      border: none;
-      display: flex;
-      align-items: center;
+  button {
+    background-color: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
 
-      span {
-        margin-right: 8px;
-        font-weight: bold;
-        color: ${({ theme }) => theme.colors.primary.main};
-      }
+    span {
+      margin-right: 8px;
+      font-weight: bold;
+      color: ${({ theme }) => theme.colors.primary.main};
+    }
+
+    img {
+      transform: ${({ orderBy }) =>
+        orderBy === 'asc' ? 'rotate(180deg)' : 'rotate(0deg)'};
+      transition: all 0.2s ease-in;
     }
   }
-
-  ul {
-    margin-top: 16px;
-  }
 `
+
+export const ListContainer = styled.ul``
 
 export const Card = styled.li`
   background-color: #fff;
