@@ -23,11 +23,18 @@ export const SearchContainer = styled.form`
   }
 `
 
-export const Header = styled.header`
+interface IHeader {
+  hasError: boolean
+}
+
+export const Header = styled.header<IHeader>`
   display: flex;
-  justify-content: space-between;
+  justify-content: ${({ hasError }) =>
+    hasError ? 'flex-end' : 'space-between'};
   align-items: center;
   margin-top: 32px;
+  border-bottom: 2px solid ${({ theme }) => theme.colors.gray.lighter};
+  padding-bottom: 16px;
 
   strong {
     font-size: 24px;
@@ -126,5 +133,25 @@ export const Card = styled.li`
 
   & + & {
     margin-top: 16px;
+  }
+`
+
+export const ErrorContainer = styled.div`
+  margin-top: 32px;
+  display: flex;
+
+  img {
+    object-fit: contain;
+  }
+
+  .details {
+    margin-left: 24px;
+    strong {
+      color: ${({ theme }) => theme.colors.danger.main};
+      font-weight: bold;
+      font-size: 22px;
+      display: block;
+      margin-bottom: 16px;
+    }
   }
 `
