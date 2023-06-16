@@ -8,15 +8,7 @@ import { ChangeEvent, useEffect, useMemo, useState } from 'react'
 import formatPhone from '../../utils/formatPhone'
 import Loader from '../../components/Loader'
 import ContactsService from '../../services/ContactsService'
-
-interface IContact {
-  id: string
-  name: string
-  email: string
-  phone: string
-  category_id: string
-  category_name: string
-}
+import IContact from '../../@types/contact'
 
 export default function Home() {
   const [contacts, setContacts] = useState<IContact[]>([])
