@@ -3,7 +3,6 @@ import delay from '../../utils/delay'
 interface IHttpClient {
   baseURL: string
   get: (path: string) => Promise<any>
-  post: (path: string, body: any) => Promise<any>
 }
 
 class HttpCLient implements IHttpClient {
@@ -14,13 +13,25 @@ class HttpCLient implements IHttpClient {
   }
 
   async get(path: string) {
-    const response = await fetch(`${this.baseURL}${path}`)
     await delay(1000)
 
-    return response.json()
-  }
+    const response = await fetch(`${this.baseURL}${path}`)
 
-  async post(path: string, body: any) {}
+    const contentType = response.headers.get('Content-Type')
+
+    let body = null
+    if (contentType?.includes('application/json')) {
+      body = await response.json()
+    }
+
+    if (response.ok) {
+      return body
+    }
+
+    throw new Error(
+      body?.error || `${response.status} - ${response.statusText}`,
+    )
+  }
 }
 
 export default HttpCLient
