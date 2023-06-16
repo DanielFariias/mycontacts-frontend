@@ -1,8 +1,10 @@
+import APIError from '../../errors/ApiError'
 import delay from '../../utils/delay'
 
 interface IHttpClient {
   baseURL: string
   get: (path: string) => Promise<any>
+  post: (path: string, body: any) => Promise<any>
 }
 
 class HttpCLient implements IHttpClient {
@@ -28,10 +30,10 @@ class HttpCLient implements IHttpClient {
       return body
     }
 
-    throw new Error(
-      body?.error || `${response.status} - ${response.statusText}`,
-    )
+    throw new APIError(response, body)
   }
+
+  async post(path: string, body: any) {}
 }
 
 export default HttpCLient
