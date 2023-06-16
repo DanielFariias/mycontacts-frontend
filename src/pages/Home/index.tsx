@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import { ChangeEvent, useEffect, useMemo, useState } from 'react'
 import formatPhone from '../../utils/formatPhone'
 import Loader from '../../components/Loader'
-import delay from '../../utils/delay'
+import ContactsService from '../../services/ContactsService'
 
 interface IContact {
   id: string
@@ -35,14 +35,9 @@ export default function Home() {
       try {
         setIsLoading(true)
 
-        const response = await fetch(
-          `http://localhost:3001/contacts?orderBy=${orderBy}`,
-        )
+        const contactsList = await ContactsService.listContacts(orderBy)
 
-        await delay(1000)
-
-        const data = await response.json()
-        setContacts(data)
+        setContacts(contactsList)
       } catch (error) {
         console.log(error)
       } finally {
