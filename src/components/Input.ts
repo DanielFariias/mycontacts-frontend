@@ -30,6 +30,12 @@ const Input = styled.input<IInputProps>`
       color: ${theme.colors.danger.main};
       border-color: ${theme.colors.danger.main} !important;
     `}
+
+  &:disabled {
+    background-color: ${({ theme }) => theme.colors.gray.lighter};
+    border-color: ${({ theme }) => theme.colors.gray.lighter};
+    cursor: not-allowed;
+  }
 `
 
 export default Input
