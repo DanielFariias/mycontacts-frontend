@@ -12,7 +12,7 @@ class ContactService implements IContactService {
   }
 
   async listContacts(orderBy: 'asc' | 'desc' = 'asc') {
-    return this.httpClient.get(`/contacsts?orderBy=${orderBy}`)
+    return this.httpClient.get(`/contacts?orderBy=${orderBy}`)
   }
 
   async createContact(contact: any) {

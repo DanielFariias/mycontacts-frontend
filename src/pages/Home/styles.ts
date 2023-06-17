@@ -24,13 +24,12 @@ export const SearchContainer = styled.form`
 `
 
 interface IHeader {
-  hasError: boolean
+  justifyContent: string
 }
 
 export const Header = styled.header<IHeader>`
   display: flex;
-  justify-content: ${({ hasError }) =>
-    hasError ? 'flex-end' : 'space-between'};
+  justify-content: ${({ justifyContent }) => justifyContent};
   align-items: center;
   margin-top: 32px;
   border-bottom: 2px solid ${({ theme }) => theme.colors.gray.lighter};
@@ -152,6 +151,43 @@ export const ErrorContainer = styled.div`
       font-size: 22px;
       display: block;
       margin-bottom: 16px;
+    }
+  }
+`
+
+export const EmptyContainer = styled.div`
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  p {
+    color: ${({ theme }) => theme.colors.gray.light};
+    margin-top: 16px;
+    text-align: center;
+    padding: 0 16px;
+
+    strong {
+      color: ${({ theme }) => theme.colors.primary.main};
+      margin: 0 4px;
+    }
+  }
+`
+
+export const SearchNotFoundContainer = styled.div`
+  margin-top: 32px;
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  max-height: 100px;
+  overflow: hidden;
+
+  span {
+    color: ${({ theme }) => theme.colors.gray.light};
+
+    strong {
+      word-break: break-all;
+      max-height: 100px;
     }
   }
 `
