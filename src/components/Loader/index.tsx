@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom'
 
 import * as S from './styles'
+import Spinner from '../Spinner'
 
 interface ILoaderProps {
   isLoading: boolean
@@ -18,7 +19,7 @@ export default function Loader({ isLoading }: ILoaderProps) {
 function LoaderComponent() {
   return (
     <S.Overlay>
-      <div className="loader" />
+      <Spinner size={90} />
     </S.Overlay>
   )
 }
