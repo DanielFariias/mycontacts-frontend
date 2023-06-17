@@ -11,6 +11,7 @@ import isEmailValid from '../../utils/isEmailValid'
 import useErrors from '../../hooks/useErrors'
 import formatPhone from '../../utils/formatPhone'
 import CategoriesService from '../../services/CategoriesService'
+import IContact from '../../@types/contact'
 
 interface ICategory {
   id: string
@@ -19,9 +20,13 @@ interface ICategory {
 
 interface IContactFormProps {
   buttonLabel: string
+  onSubmit: (contact: IContact) => void
 }
 
-export default function ContactForm({ buttonLabel }: IContactFormProps) {
+export default function ContactForm({
+  buttonLabel,
+  onSubmit,
+}: IContactFormProps) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
@@ -78,7 +83,13 @@ export default function ContactForm({ buttonLabel }: IContactFormProps) {
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
-    console.log({ name, email, phone: phone.replace(/\D/g, ''), categoryId })
+    const contact = {
+      name,
+      email,
+      phone: phone.replace(/\D/g, ''),
+      category_id: categoryId,
+    }
+    onSubmit(contact)
   }
 
   const isFormValid = name && errors.length === 0

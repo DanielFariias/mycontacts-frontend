@@ -32,7 +32,7 @@ export default function Home() {
     try {
       setIsLoading(true)
 
-      const contactsList = await ContactsService.listContacts(orderBy)
+      const contactsList = await ContactsService.list(orderBy)
 
       setHasError(false)
       setContacts(contactsList)
