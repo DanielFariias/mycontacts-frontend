@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 
 import Button from '../Button'
 import FormGroup from '../FormGroup'
@@ -10,6 +10,12 @@ import * as S from './styles'
 import isEmailValid from '../../utils/isEmailValid'
 import useErrors from '../../hooks/useErrors'
 import formatPhone from '../../utils/formatPhone'
+import CategoriesService from '../../services/CategoriesService'
+
+interface ICategory {
+  id: string
+  name: string
+}
 
 interface IContactFormProps {
   buttonLabel: string
@@ -19,7 +25,9 @@ export default function ContactForm({ buttonLabel }: IContactFormProps) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
-  const [category, setCategory] = useState('')
+  const [categoryId, setCategoryId] = useState('')
+  const [categories, setCategories] = useState<ICategory[]>([])
+  const [isLoadingCategories, setIsLoadingCategories] = useState(true)
 
   const {
     getErrorMessageByFieldName,
@@ -28,6 +36,21 @@ export default function ContactForm({ buttonLabel }: IContactFormProps) {
     setError,
     errors,
   } = useErrors()
+
+  useEffect(() => {
+    async function getCategories() {
+      setIsLoadingCategories(true)
+      try {
+        const categoriesList = await CategoriesService.list()
+
+        setCategories(categoriesList)
+      } catch {
+      } finally {
+        setIsLoadingCategories(false)
+      }
+    }
+    getCategories()
+  }, [])
 
   function handleChangeName(e: FormEvent<HTMLInputElement>) {
     if (!e.currentTarget.value) {
@@ -55,7 +78,7 @@ export default function ContactForm({ buttonLabel }: IContactFormProps) {
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
-    console.log({ name, email, phone: phone.replace(/\D/g, ''), category })
+    console.log({ name, email, phone: phone.replace(/\D/g, ''), categoryId })
   }
 
   const isFormValid = name && errors.length === 0
@@ -89,12 +112,19 @@ export default function ContactForm({ buttonLabel }: IContactFormProps) {
           maxLength={15}
         />
       </FormGroup>
-      <FormGroup>
-        <Select value={category} onChange={(e) => setCategory(e.target.value)}>
-          <option value="0">Selecione um assunto</option>
-          <option value="1">Assunto 1</option>
-          <option value="2">Assunto 2</option>
-          <option value="3">Assunto 3</option>
+      <FormGroup isLoading={isLoadingCategories}>
+        <Select
+          value={categoryId}
+          onChange={(e) => setCategoryId(e.target.value)}
+          disabled={isLoadingCategories}
+        >
+          <option value="">Sem categoria</option>
+
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
         </Select>
       </FormGroup>
       <S.ButtonContainer>
