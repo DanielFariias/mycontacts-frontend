@@ -1,10 +1,16 @@
 import APIError from '../../errors/APIError'
 import delay from '../../utils/delay'
 
+interface IOptions {
+  method?: string
+  body?: any
+  headers?: { [key: string]: string }
+}
+
 interface IHttpClient {
   baseURL: string
-  get?: (path: string) => Promise<any>
-  post?: (path: string, body: any) => Promise<any>
+  get?: (path: string, options?: IOptions) => Promise<any>
+  post?: (path: string, options?: IOptions) => Promise<any>
 }
 
 class HttpCLient implements IHttpClient {
@@ -14,35 +20,38 @@ class HttpCLient implements IHttpClient {
     this.baseURL = baseURL
   }
 
-  async get(path: string) {
-    await delay(1000)
-
-    const response = await fetch(`${this.baseURL}${path}`)
-
-    const contentType = response.headers.get('Content-Type')
-
-    let body = null
-    if (contentType?.includes('application/json')) {
-      body = await response.json()
-    }
-
-    if (response.ok) {
-      return body
-    }
-
-    throw new APIError(response, body)
+  get(path: string, options?: IOptions) {
+    return this.MakeRequest(path, {
+      method: 'GET',
+      headers: options?.headers,
+    })
   }
 
-  async post(path: string, body: any) {
-    await delay(1000)
-
-    const headers = new Headers({
-      'Content-Type': 'application/json',
+  post(path: string, options?: IOptions) {
+    return this.MakeRequest(path, {
+      method: 'POST',
+      body: options?.body,
+      headers: options?.headers,
     })
+  }
+
+  async MakeRequest(path: string, options: IOptions) {
+    await delay(1000)
+    const headers = new Headers()
+
+    if (options.body) {
+      headers.append('Content-Type', 'application/json')
+    }
+
+    if (options.headers) {
+      Object.entries(options.headers).forEach(([name, value]) => {
+        headers.append(name, value)
+      })
+    }
 
     const response = await fetch(`${this.baseURL}${path}`, {
-      method: 'POST',
-      body: JSON.stringify(body),
+      method: options.method,
+      body: JSON.stringify(options.body),
       headers,
     })
 
