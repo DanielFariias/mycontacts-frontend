@@ -1,10 +1,10 @@
 import { css, styled } from 'styled-components'
 
-interface IButtonProps {
+interface IStyledButtonProps {
   danger?: boolean
 }
 
-const Button = styled.button<IButtonProps>`
+export const StyledButton = styled.button<IStyledButtonProps>`
   height: 52px;
   border: none;
   padding: 0 16px;
@@ -15,6 +15,9 @@ const Button = styled.button<IButtonProps>`
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
   border-radius: 4px;
   transition: all 0.2s ease-in;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.primary.light};
@@ -27,6 +30,7 @@ const Button = styled.button<IButtonProps>`
   &:disabled {
     background-color: #ccc;
     cursor: not-allowed;
+    opacity: 0.7;
   }
 
   ${({ theme, danger }) =>
@@ -43,5 +47,3 @@ const Button = styled.button<IButtonProps>`
       }
     `}
 `
-
-export default Button

@@ -35,6 +35,7 @@ const Input = styled.input<IInputProps>`
     background-color: ${({ theme }) => theme.colors.gray.lighter};
     border-color: ${({ theme }) => theme.colors.gray.lighter};
     cursor: not-allowed;
+    opacity: 0.7;
   }
 `
 

@@ -149,8 +149,14 @@ export default function Home() {
                       <small>{contact.category_name}</small>
                     )}
                   </div>
-                  <span>{contact.email}</span>
-                  <span>{formatPhone(contact.phone)}</span>
+                  {contact.email || contact.phone ? (
+                    <div className="contact-info">
+                      {contact.email && <span>{contact.email}</span>}
+                      {contact.phone && (
+                        <span>{formatPhone(contact.phone)}</span>
+                      )}
+                    </div>
+                  ) : null}
                 </div>
 
                 <div className="actions">

@@ -83,7 +83,9 @@ export const ListHeader = styled.header<IListHeaderProps>`
   }
 `
 
-export const ListContainer = styled.ul``
+export const ListContainer = styled.ul`
+  margin-bottom: 100px;
+`
 
 export const Card = styled.li`
   background-color: #fff;
@@ -99,7 +101,6 @@ export const Card = styled.li`
     .contact-name {
       display: flex;
       align-items: center;
-      margin-bottom: 8px;
 
       small {
         background-color: ${({ theme }) => theme.colors.primary.lighter};
@@ -110,6 +111,10 @@ export const Card = styled.li`
         border-radius: 4px;
         margin-left: 8px;
       }
+    }
+
+    .contact-info {
+      margin-top: 8px;
     }
 
     span {
