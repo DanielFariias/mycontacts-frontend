@@ -22,7 +22,7 @@ export default function ToastMessage({
     return () => {
       clearTimeout(timeoutId)
     }
-  }, [])
+  }, [duration, id, onRemove])
 
   function handleRemoveToast() {
     onRemove(id)

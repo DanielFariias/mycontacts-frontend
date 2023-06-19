@@ -11,11 +11,15 @@ class ContactService implements IContactService {
     this.httpClient = new HttpClient('http://localhost:3001')
   }
 
-  async list(orderBy: 'asc' | 'desc' = 'asc') {
+  getAll(orderBy: 'asc' | 'desc' = 'asc') {
     return this.httpClient.get(`/contacts?orderBy=${orderBy}`)
   }
 
-  async create(contact: any) {
+  getById(id: string) {
+    return this.httpClient.get(`/contacts/${id}`)
+  }
+
+  create(contact: any) {
     return this.httpClient.post('/contacts', {
       body: contact,
     })
