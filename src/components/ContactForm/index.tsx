@@ -96,6 +96,10 @@ export default function ContactForm({
     await onSubmit(contact)
 
     setIsSubmitting(false)
+    setName('')
+    setEmail('')
+    setPhone('')
+    setCategoryId('')
   }
 
   const isFormValid = name && errors.length === 0
