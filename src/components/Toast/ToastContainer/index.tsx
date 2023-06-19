@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import ToastMessage from '../ToastMessage'
 import * as S from './styles'
+import { toastEventManager } from '../../../utils/toast'
 
 interface IToastMessage {
   id: number
@@ -12,9 +13,7 @@ export default function ToastContainer() {
   const [messages, setMessages] = useState<IToastMessage[]>([])
 
   useEffect(() => {
-    function handleAddToast(event) {
-      const { text, type } = event.detail
-
+    function handleAddToast({ text, type }: any) {
       const newMessage = {
         id: Math.random(),
         text,
@@ -24,10 +23,10 @@ export default function ToastContainer() {
       setMessages((prevState) => [...prevState, newMessage])
     }
 
-    document.addEventListener('addtoast', handleAddToast)
+    toastEventManager.on('addtoast', handleAddToast)
 
     return () => {
-      document.removeEventListener('addtoast', handleAddToast)
+      toastEventManager.removeListener('addtoast', handleAddToast)
     }
   }, [])
 
