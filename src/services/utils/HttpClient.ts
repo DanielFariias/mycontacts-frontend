@@ -11,6 +11,8 @@ interface IHttpClient {
   baseURL: string
   get?: (path: string, options?: IOptions) => Promise<any>
   post?: (path: string, options?: IOptions) => Promise<any>
+  put?: (path: string, options?: IOptions) => Promise<any>
+  delete?: (path: string, options?: IOptions) => Promise<any>
 }
 
 class HttpCLient implements IHttpClient {
@@ -39,6 +41,13 @@ class HttpCLient implements IHttpClient {
     return this.MakeRequest(path, {
       method: 'PUT',
       body: options?.body,
+      headers: options?.headers,
+    })
+  }
+
+  delete(path: string, options?: IOptions) {
+    return this.MakeRequest(path, {
+      method: 'DELETE',
       headers: options?.headers,
     })
   }

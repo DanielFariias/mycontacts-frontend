@@ -28,9 +28,9 @@ export const StyledButton = styled.button<IStyledButtonProps>`
   }
 
   &:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-    opacity: 0.7;
+    background-color: #ccc !important;
+    cursor: not-allowed !important;
+    opacity: 0.7 !important;
   }
 
   ${({ theme, danger }) =>

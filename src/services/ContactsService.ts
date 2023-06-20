@@ -30,6 +30,10 @@ class ContactService implements IContactService {
       body: contact,
     })
   }
+
+  delete = (id: string) => {
+    return this.httpClient.delete(`/contacts/${id}`)
+  }
 }
 
 export default new ContactService()

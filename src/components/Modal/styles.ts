@@ -3,7 +3,7 @@ import { styled } from 'styled-components'
 export const Overlay = styled.div`
   background-color: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
   top: 0;
@@ -28,14 +28,15 @@ export const Container = styled.div<IContainerProps>`
   padding: 24px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
 
-  h1 {
+  > h1 {
     font-size: 22px;
     color: ${({ theme, danger }) =>
       danger ? theme.colors.danger.main : theme.colors.gray.dark};
   }
 
-  p {
-    margin-top: 8px;
+  .modal-body {
+    margin-top: 16px;
+    word-wrap: break-word;
   }
 `
 
@@ -50,7 +51,12 @@ export const Footer = styled.div`
     background-color: transparent;
     border: none;
     font-size: 16px;
-    margin-right: 16px;
+    margin-right: 24px;
     color: ${({ theme }) => theme.colors.gray.light};
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
   }
 `
