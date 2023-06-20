@@ -19,6 +19,7 @@ import useErrors from '../../hooks/useErrors'
 import formatPhone from '../../utils/formatPhone'
 import CategoriesService from '../../services/CategoriesService'
 import IContact from '../../@types/contact'
+import useSafeAsyncState from '../../hooks/useSafeAsyncState'
 
 interface ICategory {
   id: string
@@ -38,8 +39,9 @@ function ContactForm(
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [categoryId, setCategoryId] = useState('')
-  const [categories, setCategories] = useState<ICategory[]>([])
-  const [isLoadingCategories, setIsLoadingCategories] = useState(true)
+  const [categories, setCategories] = useSafeAsyncState<ICategory[]>([])
+  const [isLoadingCategories, setIsLoadingCategories] =
+    useSafeAsyncState<boolean>(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const {
@@ -84,7 +86,7 @@ function ContactForm(
       }
     }
     getCategories()
-  }, [])
+  }, [setCategories, setIsLoadingCategories])
 
   function handleChangeName(e: FormEvent<HTMLInputElement>) {
     if (!e.currentTarget.value) {
