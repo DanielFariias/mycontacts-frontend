@@ -9,6 +9,7 @@ import toast from '../../utils/toast'
 
 interface IContactFormRef {
   setFildsValues: (contact: IContact) => void
+  resetFields: () => void
 }
 
 export default function EditContact() {
