@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react'
 import ContactsService from '../../services/ContactsService'
 import Loader from '../../components/Loader'
 import toast from '../../utils/toast'
+import useSafeAsyncAction from '../../hooks/useSafeAsyncAction'
 
 interface IContactFormRef {
   setFildsValues: (contact: IContact) => void
@@ -17,6 +18,8 @@ export default function EditContact() {
   const [contactName, setContactName] = useState('Contato')
   const contactFormRef = useRef<IContactFormRef | null>(null)
 
+  const safeAsyncAction = useSafeAsyncAction()
+
   const { id } = useParams<{ id: string }>()
   const history = useHistory()
 
@@ -25,21 +28,25 @@ export default function EditContact() {
       try {
         const contact = await ContactsService.getById(id)
 
-        contactFormRef.current?.setFildsValues(contact)
-        setContactName(contact.name)
-        setIsLoading(false)
+        safeAsyncAction(() => {
+          contactFormRef.current?.setFildsValues(contact)
+          setContactName(contact.name)
+          setIsLoading(false)
+        })
       } catch {
-        history.push('/')
+        safeAsyncAction(() => {
+          history.push('/')
 
-        toast({
-          text: 'Não foi possível buscar o contato, tente novamente',
-          type: 'danger',
+          toast({
+            text: 'Não foi possível buscar o contato, tente novamente',
+            type: 'danger',
+          })
         })
       }
     }
 
     getContact()
-  }, [id, history])
+  }, [id, history, safeAsyncAction])
 
   async function handleSubmit(formData: IContact) {
     try {
