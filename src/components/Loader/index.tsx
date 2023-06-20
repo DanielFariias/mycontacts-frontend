@@ -1,7 +1,6 @@
-import ReactDOM from 'react-dom'
-
 import * as S from './styles'
 import Spinner from '../Spinner'
+import ReactPortal from '../ReactPortal'
 
 interface ILoaderProps {
   isLoading: boolean
@@ -10,16 +9,11 @@ interface ILoaderProps {
 export default function Loader({ isLoading }: ILoaderProps) {
   if (!isLoading) return null
 
-  return ReactDOM.createPortal(
-    <LoaderComponent />,
-    document.getElementById('loader-root') as HTMLElement,
-  )
-}
-
-function LoaderComponent() {
   return (
-    <S.Overlay>
-      <Spinner size={90} />
-    </S.Overlay>
+    <ReactPortal containerId="loader-root">
+      <S.Overlay>
+        <Spinner size={90} />
+      </S.Overlay>
+    </ReactPortal>
   )
 }
