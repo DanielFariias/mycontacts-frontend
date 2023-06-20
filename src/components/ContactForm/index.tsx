@@ -1,4 +1,11 @@
-import { FormEvent, useEffect, useState } from 'react'
+import {
+  FormEvent,
+  forwardRef,
+  useEffect,
+  useState,
+  useImperativeHandle,
+  Ref,
+} from 'react'
 
 import Button from '../Button'
 import FormGroup from '../FormGroup'
@@ -23,10 +30,10 @@ interface IContactFormProps {
   onSubmit: (contact: IContact) => Promise<void>
 }
 
-export default function ContactForm({
-  buttonLabel,
-  onSubmit,
-}: IContactFormProps) {
+function ContactForm(
+  { buttonLabel, onSubmit }: IContactFormProps,
+  ref: Ref<{ setFildsValues: (contact: IContact) => void }>,
+) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
@@ -42,6 +49,21 @@ export default function ContactForm({
     setError,
     errors,
   } = useErrors()
+
+  useImperativeHandle(
+    ref,
+    () => {
+      return {
+        setFildsValues: (contact: IContact) => {
+          setName(contact.name ?? '')
+          setEmail(contact.email ?? '')
+          setPhone(formatPhone(contact.phone) ?? '')
+          setCategoryId(contact.category_id ?? '')
+        },
+      }
+    },
+    [],
+  )
 
   useEffect(() => {
     async function getCategories() {
@@ -96,10 +118,6 @@ export default function ContactForm({
     await onSubmit(contact)
 
     setIsSubmitting(false)
-    setName('')
-    setEmail('')
-    setPhone('')
-    setCategoryId('')
   }
 
   const isFormValid = name && errors.length === 0
@@ -159,3 +177,5 @@ export default function ContactForm({
     </S.Form>
   )
 }
+
+export default forwardRef(ContactForm)

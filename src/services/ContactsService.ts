@@ -24,6 +24,12 @@ class ContactService implements IContactService {
       body: contact,
     })
   }
+
+  update(id: string, contact: any) {
+    return this.httpClient.put(`/contacts/${id}`, {
+      body: contact,
+    })
+  }
 }
 
 export default new ContactService()

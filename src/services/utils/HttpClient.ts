@@ -35,6 +35,14 @@ class HttpCLient implements IHttpClient {
     })
   }
 
+  put(path: string, options?: IOptions) {
+    return this.MakeRequest(path, {
+      method: 'PUT',
+      body: options?.body,
+      headers: options?.headers,
+    })
+  }
+
   async MakeRequest(path: string, options: IOptions) {
     await delay(1000)
     const headers = new Headers()
